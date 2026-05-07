@@ -9,7 +9,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #111; line-height: 1.6; }
     
-    /* 语言切换按钮样式 */
+    /* 语言切换 */
     .language-switcher {
       position: fixed;
       top: 20px;
@@ -39,337 +39,254 @@
     .hero { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: #fff; padding: 80px 20px; text-align: center; }
     .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 16px; }
     .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 32px; opacity: 0.9; }
-    .cta { display: inline-block; background: #ff6b35; color: #fff; padding: 14px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: transform .2s; }
+    .cta { display: inline-block; background: #ff6b35; color: #fff; padding: 14px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: transform .2s; cursor: pointer; border: none; }
     .cta:hover { transform: scale(1.05); }
+    .cta-whatsapp { background: #25D366; margin-left: 12px; }
+    
     section { padding: 60px 20px; max-width: 1100px; margin: 0 auto; }
-    h2 { font-size: 1.8rem; margin-bottom: 24px; text-align: center; }
+    h2 { font-size: clamp(1.5rem, 3vw, 1.8rem); margin-bottom: 24px; text-align: center; color: #302b63; position: relative; }
+    h2::after { content: ''; display: block; width: 60px; height: 3px; background: #ff6b35; margin: 12px auto 0; border-radius: 3px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .card { background: #f8f9fa; border-radius: 12px; padding: 24px; }
-    .card h3 { margin-bottom: 8px; font-size: 1.2rem; }
-    .card .num { font-size: 2rem; font-weight: 700; color: #302b63; }
-    .pricing-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
-    .pricing-table th, .pricing-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-    .pricing-table th { background: #f0f0f0; font-weight: 600; }
-    .contact { background: #f8f9fa; border-radius: 12px; padding: 40px; text-align: center; }
-    .contact a { color: #302b63; font-weight: 600; }
-    footer { text-align: center; padding: 32px; color: #666; font-size: 0.9rem; }
+    .card { background: #f8f9fa; border-radius: 12px; padding: 24px; transition: transform .2s; border: 1px solid #eee; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+    .card h3 { margin-bottom: 8px; font-size: 1.2rem; color: #302b63; }
+    .card .num { font-size: 2rem; font-weight: 700; color: #302b63; display: block; margin-bottom: 8px; }
+    
+    .pricing-table { width: 100%; border-collapse: collapse; margin: 24px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; }
+    .pricing-table th, .pricing-table td { padding: 16px 12px; text-align: left; border-bottom: 1px solid #eee; }
+    .pricing-table th { background: #302b63; color: #fff; font-weight: 600; }
+    .pricing-table tr:last-child td { border-bottom: none; }
+    .pricing-table tr:hover { background: #f8f9fa; }
+    
+    .contact { background: linear-gradient(135deg, #f8f9fa, #f0f2ff); border-radius: 12px; padding: 60px 40px; text-align: center; margin-top: 20px; }
+    .contact-details { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 24px 0; flex-wrap: wrap; }
+    .contact-item { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+    .contact-item a { color: #302b63; font-weight: 600; text-decoration: none; }
+    .contact-item svg { width: 20px; height: 20px; fill: #302b63; }
+    
+    footer { text-align: center; padding: 32px; color: #666; font-size: 0.9rem; background: #f8f9fa; margin-top: 40px; }
     .badge { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; }
     
-    /* 响应式适配语言切换按钮 */
-    @media (max-width: 600px) {
-      .pricing-table { font-size: 0.9rem; }
-      .language-switcher {
-        top: 10px;
-        right: 10px;
-      }
-      .lang-btn {
-        padding: 4px 12px;
-        font-size: 0.85rem;
-      }
+    /* 悬浮联系按钮 */
+    .sticky-contact { position: fixed; bottom: 20px; right: 20px; z-index: 999; display: flex; gap: 10px; }
+    .sticky-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform .2s; }
+    .sticky-btn:hover { transform: scale(1.1); }
+    .whatsapp-btn { background: #25D366; }
+    .email-btn { background: #ff6b35; }
+    .sticky-btn svg { width: 24px; height: 24px; fill: white; }
+
+    /* 弹窗样式 */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 9999;
+    }
+    .modal {
+      background: white; padding: 30px; border-radius: 16px; width: 90%; max-width: 400px; text-align: center;
+    }
+    .modal h3 { margin-bottom: 20px; color: #302b63; }
+    .contact-info { margin: 12px 0; font-size: 16px; font-weight: 600; }
+    .modal-close { margin-top: 20px; padding: 10px 24px; background: #302b63; color: white; border: none; border-radius: 8px; cursor: pointer; }
+
+    @media (max-width: 600px) { 
+      .pricing-table { font-size: 0.9rem; } 
+      .cta { display: block; width: 90%; margin: 0 auto 12px; }
+      .cta-whatsapp { margin-left: auto; margin-right: auto; }
+      .language-switcher { top: 10px; right: 10px; }
+      .lang-btn { padding: 4px 12px; font-size: 0.85rem; }
     }
   </style>
 </head>
+
 <body>
-  <!-- 语言切换按钮 -->
-  <div class="language-switcher">
-    <button class="lang-btn active" data-lang="en">English</button>
-    <button class="lang-btn" data-lang="zh">中文</button>
+<!-- 语言切换 -->
+<div class="language-switcher">
+  <button class="lang-btn active" lang="en">English</button>
+  <button class="lang-btn" lang="zh">中文</button>
+</div>
+
+<!-- 弹窗 -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal">
+    <h3 key="modal_title">Contact Information</h3>
+    <div class="contact-info">📩 Email: cnsaler2024@gmail.com</div>
+    <div class="contact-info">💬 WhatsApp: +86 13343340318</div>
+    <button class="modal-close" key="modal_close">Close</button>
+  </div>
+</div>
+
+<!-- 悬浮联系按钮 -->
+<div class="sticky-contact">
+  <a href="https://wa.me/8613343340318" target="_blank" class="sticky-btn whatsapp-btn" title="WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.071 4.929a10 10 0 0 0-14.142 0 10 10 0 0 0 0 14.142 10 10 0 0 0 14.142 0 10 10 0 0 0 0-14.142zm-1.414 12.728a8 8 0 0 1-11.314 0 8 8 0 0 1 0-11.314 8 8 0 0 1 11.314 0 8 8 0 0 1 0 11.314z"/></svg>
+  </a>
+  <a href="mailto:cnsaler2024@gmail.com" class="sticky-btn email-btn" title="Email">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+  </a>
+</div>
+
+<!-- 主内容 -->
+<div class="hero">
+  <h1 key="hero_title">AI Animated Comics at Industrial Scale</h1>
+  <p key="hero_subtitle"><strong>2,000 episodes/month</strong> · <strong>$60–200/episode</strong></p>
+  
+  <!-- 点击弹出联系方式 -->
+  <button class="cta" onclick="showContact()">
+    <span key="hero_cta">Get a Quote →</span>
+  </button>
+
+  <a class="cta cta-whatsapp" href="https://wa.me/8613343340318" target="_blank">
+    <span key="whatsapp_cta">Chat on WhatsApp →</span>
+  </a>
+</div>
+
+<section>
+  <h2 key="service_title">What We Do</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="badge" key="badge1">Short Video</div>
+      <h3 key="card1_title">Vertical Short Drama</h3>
+      <p key="card1_desc">1-minute episodes for TikTok / Reels / Shorts.</p>
+    </div>
+    <div class="card">
+      <div class="badge" key="badge2">Comic</div>
+      <h3 key="card2_title">Comic to Animation</h3>
+      <p key="card2_desc">Turn webcomics into animated videos with voice & SFX.</p>
+    </div>
+    <div class="card">
+      <div class="badge" key="badge3">Novel</div>
+      <h3 key="card3_title">Novel Adaptation</h3>
+      <p key="card3_desc">Full series production from novel scripts.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 key="advantage_title">Our Advantages</h2>
+  <div class="grid">
+    <div class="card"><div class="num">2000+</div><p key="adv1">Episodes per month</p></div>
+    <div class="card"><div class="num">$60-200</div><p key="adv2">Per episode price</p></div>
+    <div class="card"><div class="num">24-72h</div><p key="adv3">Fast delivery</p></div>
+    <div class="card"><div class="num">20+</div><p key="adv4">Languages supported</p></div>
+  </div>
+</section>
+
+<section class="contact">
+  <h2 key="contact_title">Contact Us Now</h2>
+  <p key="contact_desc">We will reply within 2 hours.</p>
+  
+  <div class="contact-details">
+    <div class="contact-item">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <a href="mailto:cnsaler2024@gmail.com">cnsaler2024@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.071 4.929a10 10 0 0 0-14.142 0"/></svg>
+      <a href="https://wa.me/8613343340318" target="_blank">+86 13343340318</a>
+    </div>
   </div>
 
-  <div class="hero">
-    <h1 data-lang-key="hero_title">AI Animated Comics at Industrial Scale</h1>
-    <p data-lang-key="hero_subtitle"><strong>2,000 episodes/month</strong> · <strong>$60–200/episode</strong> · Turnkey production from script to final export</p>
-    <a class="cta" href="mailto:jingchistudio@email.com" data-lang-key="hero_cta">Get a Quote →</a>
-  </div>
+  <!-- 点击弹出联系方式 -->
+  <button class="cta" onclick="showContact()">
+    <span key="contact_cta">Get Quote →</span>
+  </button>
+</section>
 
-  <section>
-    <h2 data-lang-key="what_we_do_title">What We Do</h2>
-    <p style="text-align:center;max-width:700px;margin:0 auto 40px;" data-lang-key="what_we_do_desc">We turn scripts, novels, or webcomics into AI-powered animated shorts. Full production pipeline—no loose ends, no excuses.</p>
-    <div class="grid">
-      <div class="card">
-        <div class="badge" data-lang-key="badge_vertical">TikTok/Reels/Shorts</div>
-        <h3 data-lang-key="card_vertical_title">Vertical Short Drama</h3>
-        <p data-lang-key="card_vertical_desc">1-minute episodes optimized for TikTok, Instagram Reels, and YouTube Shorts. Hook in 3 seconds.</p>
-      </div>
-      <div class="card">
-        <div class="badge" data-lang-key="badge_comic">Webtoon → Animation</div>
-        <h3 data-lang-key="card_comic_title">Comic-to-Motion</h3>
-        <p data-lang-key="card_comic_desc">Adapt your webcomic or manhua into animated episodes with voiceover, SFX, and motion graphics.</p>
-      </div>
-      <div class="card">
-        <div class="badge" data-lang-key="badge_novel">Novel → Series</div>
-        <h3 data-lang-key="card_novel_title">Novel Adaptation</h3>
-        <p data-lang-key="card_novel_desc">From webnovel to full animated series. We handle scripting, storyboarding, production, and localization.</p>
-      </div>
-    </div>
-  </section>
+<footer>
+  <p key="footer">© 2026 AI Animation Studio. All Rights Reserved.</p>
+</footer>
 
-  <section>
-    <h2 data-lang-key="why_us_title">Why Jingchi Studio?</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="num">2,000</div>
-        <p data-lang-key="why_us_2000">Episodes produced per month — enough for a daily upload schedule</p>
-      </div>
-      <div class="card">
-        <div class="num">$60–200</div>
-        <p data-lang-key="why_us_price">Per finished 1-minute episode. No hidden fees. Transparent pricing.</p>
-      </div>
-      <div class="card">
-        <div class="num">24–72h</div>
-        <p data-lang-key="why_us_turnaround">Turnaround on standard orders. Rush delivery available.</p>
-      </div>
-      <div class="card">
-        <div class="num">20+</div>
-        <p data-lang-key="why_us_languages">Languages supported via AI dubbing & subtitling</p>
-      </div>
-    </div>
-  </section>
+<script>
+// 多语言内容
+const i18n = {
+  en: {
+    modal_title: "Contact Information",
+    modal_close: "Close",
+    hero_title: "AI Animated Comics at Industrial Scale",
+    hero_subtitle: "<strong>2,000 episodes/month</strong> · <strong>$60–200/episode</strong>",
+    hero_cta: "Get a Quote →",
+    whatsapp_cta: "Chat on WhatsApp →",
+    service_title: "What We Do",
+    badge1: "Short Video",
+    card1_title: "Vertical Short Drama",
+    card1_desc: "1-minute episodes for TikTok / Reels / Shorts.",
+    badge2: "Comic",
+    card2_title: "Comic to Animation",
+    card2_desc: "Turn webcomics into animated videos with voice & SFX.",
+    badge3: "Novel",
+    card3_title: "Novel Adaptation",
+    card3_desc: "Full series production from novel scripts.",
+    advantage_title: "Our Advantages",
+    adv1: "Episodes per month",
+    adv2: "Per episode price",
+    adv3: "Fast delivery",
+    adv4: "Languages supported",
+    contact_title: "Contact Us Now",
+    contact_desc: "We will reply within 2 hours.",
+    contact_cta: "Get Quote →",
+    footer: "© 2026 AI Animation Studio. All Rights Reserved."
+  },
+  zh: {
+    modal_title: "联系方式",
+    modal_close: "关闭",
+    hero_title: "工业化AI动画漫画制作",
+    hero_subtitle: "<strong>月产2000集</strong> · <strong>每集$60–200</strong>",
+    hero_cta: "获取报价 →",
+    whatsapp_cta: "WhatsApp咨询 →",
+    service_title: "我们的服务",
+    badge1: "短视频",
+    card1_title: "竖屏短剧",
+    card1_desc: "专为抖音/Reels/Shorts定制1分钟动画短剧。",
+    badge2: "漫画",
+    card2_title: "漫画转动画",
+    card2_desc: "将漫画转为带配音、音效的动态动画。",
+    badge3: "小说",
+    card3_title: "小说改编",
+    card3_desc: "从小说剧本到完整动画系列全流程制作。",
+    advantage_title: "我们的优势",
+    adv1: "月产出2000+集",
+    adv2: "单集透明报价",
+    adv3: "24-72小时快速交付",
+    adv4: "支持20+种语言",
+    contact_title: "立即联系我们",
+    contact_desc: "工作时间2小时内快速响应",
+    contact_cta: "立即获取报价 →",
+    footer: "© 2026 AI动画工作室 保留所有权利"
+  }
+};
 
-  <section>
-    <h2 data-lang-key="pricing_title">Pricing</h2>
-    <table class="pricing-table">
-      <thead>
-        <tr>
-          <th data-lang-key="pricing_plan">Plan</th>
-          <th data-lang-key="pricing_episodes">Episodes/Month</th>
-          <th data-lang-key="pricing_per_ep">Per Episode</th>
-          <th data-lang-key="pricing_monthly">Monthly Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-lang-key="pricing_starter">Starter</td>
-          <td>50</td>
-          <td>$200</td>
-          <td>$10,000</td>
-        </tr>
-        <tr>
-          <td data-lang-key="pricing_growth">Growth</td>
-          <td>200</td>
-          <td>$150</td>
-          <td>$30,000</td>
-        </tr>
-        <tr>
-          <td data-lang-key="pricing_scale">Scale</td>
-          <td>500</td>
-          <td>$100</td>
-          <td>$50,000</td>
-        </tr>
-        <tr>
-          <td data-lang-key="pricing_enterprise"><strong>Enterprise</strong></td>
-          <td>2000</td>
-          <td><strong>$60</strong></td>
-          <td><strong>$120,000</strong></td>
-        </tr>
-      </tbody>
-    </table>
-    <p style="text-align:center;margin-top:16px;color:#666;" data-lang-key="pricing_note">All plans include script adaptation, voiceover, motion graphics, and final export. Custom requests welcome.</p>
-  </section>
+// 弹窗控制
+function showContact() {
+  document.getElementById("contactModal").style.display = "flex";
+}
+function closeModal() {
+  document.getElementById("contactModal").style.display = "none";
+}
+document.querySelector(".modal-close").onclick = closeModal;
+document.getElementById("contactModal").onclick = function(e) {
+  if (e.target === this) closeModal();
+};
 
-  <section>
-    <h2 data-lang-key="process_title">Our Process</h2>
-    <div class="grid">
-      <div class="card">
-        <h3 data-lang-key="process_1">1. Script</h3>
-        <p data-lang-key="process_1_desc">You provide the script or source material. We adapt it for the 1-minute vertical format.</p>
-      </div>
-      <div class="card">
-        <h3 data-lang-key="process_2">2. Storyboard</h3>
-        <p data-lang-key="process_2_desc">We storyboard and get your approval before production begins.</p>
-      </div>
-      <div class="card">
-        <h3 data-lang-key="process_3">3. Production</h3>
-        <p data-lang-key="process_3_desc">AI-driven animation pipeline with human quality control at every step.</p>
-      </div>
-      <div class="card">
-        <h3 data-lang-key="process_4">4. Voice & Sound</h3>
-        <p data-lang-key="process_4_desc">AI voiceover in your target language + background music and SFX.</p>
-      </div>
-      <div class="card">
-        <h3 data-lang-key="process_5">5. Review</h3>
-        <p data-lang-key="process_5_desc">You review and request changes. Unlimited revisions until you're happy.</p>
-      </div>
-      <div class="card">
-        <h3 data-lang-key="process_6">6. Deliver</h3>
-        <p data-lang-key="process_6_desc">Final MP4 files delivered via cloud link. Ready to upload.</p>
-      </div>
-    </div>
-  </section>
+// 切换语言
+function setLang(lang) {
+  localStorage.lang = lang;
+  document.querySelectorAll("[key]").forEach(el => {
+    const k = el.getAttribute("key");
+    if (i18n[lang][k]) el.innerHTML = i18n[lang][k];
+  });
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.getAttribute("lang") === lang);
+  });
+}
 
-  <section class="contact">
-    <h2 data-lang-key="contact_title">Ready to Scale Your Content?</h2>
-    <p style="margin-bottom:24px;" data-lang-key="contact_desc">Tell us about your project. We'll send you a sample episode and a custom quote within 24 hours.</p>
-    <a class="cta" href="mailto:jingchistudio@email.com" data-lang-key="contact_cta">Email Us →</a>
-    <p style="margin-top:16px;font-size:0.9rem;" data-lang-key="contact_other">Or reach out via <a href="#">Upwork</a> · <a href="#">Fiverr</a> · <a href="#">YouTube</a></p>
-  </section>
-
-  <footer>
-    <p data-lang-key="footer_1">Jingchi Studio · AI Animated Comic Production · Contact: jingchistudio@email.com</p>
-    <p style="margin-top:8px;" data-lang-key="footer_2">© 2026 Jingchi Studio. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // 多语言文本数据
-    const translations = {
-      en: {
-        hero_title: "AI Animated Comics at Industrial Scale",
-        hero_subtitle: "<strong>2,000 episodes/month</strong> · <strong>$60–200/episode</strong> · Turnkey production from script to final export",
-        hero_cta: "Get a Quote →",
-        
-        what_we_do_title: "What We Do",
-        what_we_do_desc: "We turn scripts, novels, or webcomics into AI-powered animated shorts. Full production pipeline—no loose ends, no excuses.",
-        badge_vertical: "TikTok/Reels/Shorts",
-        card_vertical_title: "Vertical Short Drama",
-        card_vertical_desc: "1-minute episodes optimized for TikTok, Instagram Reels, and YouTube Shorts. Hook in 3 seconds.",
-        badge_comic: "Webtoon → Animation",
-        card_comic_title: "Comic-to-Motion",
-        card_comic_desc: "Adapt your webcomic or manhua into animated episodes with voiceover, SFX, and motion graphics.",
-        badge_novel: "Novel → Series",
-        card_novel_title: "Novel Adaptation",
-        card_novel_desc: "From webnovel to full animated series. We handle scripting, storyboarding, production, and localization.",
-        
-        why_us_title: "Why Jingchi Studio?",
-        why_us_2000: "Episodes produced per month — enough for a daily upload schedule",
-        why_us_price: "Per finished 1-minute episode. No hidden fees. Transparent pricing.",
-        why_us_turnaround: "Turnaround on standard orders. Rush delivery available.",
-        why_us_languages: "Languages supported via AI dubbing & subtitling",
-        
-        pricing_title: "Pricing",
-        pricing_plan: "Plan",
-        pricing_episodes: "Episodes/Month",
-        pricing_per_ep: "Per Episode",
-        pricing_monthly: "Monthly Total",
-        pricing_starter: "Starter",
-        pricing_growth: "Growth",
-        pricing_scale: "Scale",
-        pricing_enterprise: "Enterprise",
-        pricing_note: "All plans include script adaptation, voiceover, motion graphics, and final export. Custom requests welcome.",
-        
-        process_title: "Our Process",
-        process_1: "1. Script",
-        process_1_desc: "You provide the script or source material. We adapt it for the 1-minute vertical format.",
-        process_2: "2. Storyboard",
-        process_2_desc: "We storyboard and get your approval before production begins.",
-        process_3: "3. Production",
-        process_3_desc: "AI-driven animation pipeline with human quality control at every step.",
-        process_4: "4. Voice & Sound",
-        process_4_desc: "AI voiceover in your target language + background music and SFX.",
-        process_5: "5. Review",
-        process_5_desc: "You review and request changes. Unlimited revisions until you're happy.",
-        process_6: "6. Deliver",
-        process_6_desc: "Final MP4 files delivered via cloud link. Ready to upload.",
-        
-        contact_title: "Ready to Scale Your Content?",
-        contact_desc: "Tell us about your project. We'll send you a sample episode and a custom quote within 24 hours.",
-        contact_cta: "Email Us →",
-        contact_other: "Or reach out via <a href="#">Upwork</a> · <a href="#">Fiverr</a> · <a href="#">YouTube</a>",
-        
-        footer_1: "Jingchi Studio · AI Animated Comic Production · Contact: jingchistudio@email.com",
-        footer_2: "© 2026 Jingchi Studio. All rights reserved."
-      },
-      zh: {
-        hero_title: "工业化规模的AI动画漫画制作",
-        hero_subtitle: "<strong>每月2000集</strong> · <strong>每集60-200美元</strong> · 从剧本到最终输出的一站式制作",
-        hero_cta: "获取报价 →",
-        
-        what_we_do_title: "我们的服务",
-        what_we_do_desc: "我们将剧本、小说或网络漫画转化为AI驱动的动画短片。全流程制作服务，无任何遗漏，无需额外操心。",
-        badge_vertical: "抖音/快手/短视频",
-        card_vertical_title: "竖屏短剧",
-        card_vertical_desc: "1分钟时长的剧集，专为抖音、Instagram Reels和YouTube Shorts优化。3秒抓住观众注意力。",
-        badge_comic: "漫画 → 动画",
-        card_comic_title: "漫画动态化",
-        card_comic_desc: "将您的网络漫画或漫画改编为带有配音、音效和动态图形的动画剧集。",
-        badge_novel: "小说 → 系列",
-        card_novel_title: "小说改编",
-        card_novel_desc: "从网络小说到完整动画系列。我们负责剧本编写、分镜、制作和本地化。",
-        
-        why_us_title: "为什么选择镜池工作室？",
-        why_us_2000: "每月制作2000集 — 足以支撑每日更新的发布节奏",
-        why_us_price: "每完成1分钟剧集的价格。无隐藏费用，定价透明。",
-        why_us_turnaround: "标准订单交付周期24-72小时，可加急交付。",
-        why_us_languages: "支持20多种语言的AI配音和字幕",
-        
-        pricing_title: "价格方案",
-        pricing_plan: "方案",
-        pricing_episodes: "每月集数",
-        pricing_per_ep: "每集价格",
-        pricing_monthly: "每月总计",
-        pricing_starter: "入门版",
-        pricing_growth: "成长版",
-        pricing_scale: "规模版",
-        pricing_enterprise: "企业版",
-        pricing_note: "所有方案均包含剧本改编、配音、动态图形和最终输出。支持定制需求。",
-        
-        process_title: "我们的流程",
-        process_1: "1. 剧本",
-        process_1_desc: "您提供剧本或源材料，我们将其改编为1分钟竖屏格式。",
-        process_2: "2. 分镜",
-        process_2_desc: "我们制作分镜并在开始制作前获得您的确认。",
-        process_3: "3. 制作",
-        process_3_desc: "AI驱动的动画制作流程，每一步都有人工质量控制。",
-        process_4: "4. 配音与音效",
-        process_4_desc: "目标语言的AI配音 + 背景音乐和音效。",
-        process_5: "5. 审核",
-        process_5_desc: "您进行审核并提出修改意见。无限次修改直到您满意。",
-        process_6: "6. 交付",
-        process_6_desc: "最终MP4文件通过云链接交付，可直接上传发布。",
-        
-        contact_title: "准备好扩大您的内容规模了吗？",
-        contact_desc: "告诉我们您的项目需求。我们将在24小时内为您发送样片和定制报价。",
-        contact_cta: "联系我们 →",
-        contact_other: "也可通过 <a href="#">Upwork</a> · <a href="#">Fiverr</a> · <a href="#">YouTube</a> 联系我们",
-        
-        footer_1: "镜池工作室 · AI动画漫画制作 · 联系方式: jingchistudio@email.com",
-        footer_2: "© 2026 镜池工作室 保留所有权利。"
-      }
-    };
-
-    // 切换语言函数
-    function switchLanguage(lang) {
-      // 更新按钮状态
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
-      });
-      
-      // 更新页面文本
-      document.querySelectorAll('[data-lang-key]').forEach(element => {
-        const key = element.dataset.langKey;
-        if (translations[lang][key]) {
-          // 处理包含HTML的内容
-          element.innerHTML = translations[lang][key];
-        }
-      });
-      
-      // 更新页面lang属性
-      document.documentElement.lang = lang;
-      
-      // 更新title和meta description
-      if (lang === 'zh') {
-        document.title = "镜池工作室 — AI动画漫画制作";
-        document.querySelector('meta[name="description"]').content = "AI动画漫画和短剧制作工作室。每月2000集，每集60-200美元。交付周期快，全球交付。";
-      } else {
-        document.title = "Jingchi Studio — AI Animated Comic Production";
-        document.querySelector('meta[name="description"]').content = "AI animated comic & short drama production studio. 2000 episodes/month, $60–200/episode. Fast turnaround, global delivery.";
-      }
-      
-      // 保存语言偏好到本地存储
-      localStorage.setItem('preferred_language', lang);
-    }
-
-    // 绑定语言切换按钮事件
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        switchLanguage(btn.dataset.lang);
-      });
-    });
-
-    // 页面加载时恢复用户语言偏好
-    document.addEventListener('DOMContentLoaded', () => {
-      const savedLang = localStorage.getItem('preferred_language') || 'en';
-      switchLanguage(savedLang);
-    });
-  </script>
+// 初始化
+document.addEventListener("DOMContentLoaded", () => {
+  const save = localStorage.lang || "en";
+  setLang(save);
+  
+  document.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.onclick = () => setLang(btn.getAttribute("lang"));
+  });
+});
+</script>
 </body>
 </html>
