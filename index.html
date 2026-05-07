@@ -8,32 +8,67 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #111; line-height: 1.6; }
-    .hero { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: #fff; padding: 80px 20px; text-align: center; }
+    .hero { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); color: #fff; padding: 80px 20px; text-align: center; position: relative; }
     .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 16px; }
     .hero p { font-size: 1.2rem; max-width: 700px; margin: 0 auto 32px; opacity: 0.9; }
-    .cta { display: inline-block; background: #ff6b35; color: #fff; padding: 14px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: transform .2s; }
-    .cta:hover { transform: scale(1.05); }
+    .cta { display: inline-block; background: #ff6b35; color: #fff; padding: 14px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: all .2s; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3); }
+    .cta:hover { transform: scale(1.05); box-shadow: 0 6px 16px rgba(255, 107, 53, 0.4); }
+    .cta-whatsapp { background: #25D366; margin-left: 12px; }
     section { padding: 60px 20px; max-width: 1100px; margin: 0 auto; }
-    h2 { font-size: 1.8rem; margin-bottom: 24px; text-align: center; }
+    h2 { font-size: clamp(1.5rem, 3vw, 1.8rem); margin-bottom: 24px; text-align: center; color: #302b63; position: relative; }
+    h2::after { content: ''; display: block; width: 60px; height: 3px; background: #ff6b35; margin: 12px auto 0; border-radius: 3px; }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
-    .card { background: #f8f9fa; border-radius: 12px; padding: 24px; }
-    .card h3 { margin-bottom: 8px; font-size: 1.2rem; }
-    .card .num { font-size: 2rem; font-weight: 700; color: #302b63; }
-    .pricing-table { width: 100%; border-collapse: collapse; margin: 24px 0; }
-    .pricing-table th, .pricing-table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
-    .pricing-table th { background: #f0f0f0; font-weight: 600; }
-    .contact { background: #f8f9fa; border-radius: 12px; padding: 40px; text-align: center; }
-    .contact a { color: #302b63; font-weight: 600; }
-    footer { text-align: center; padding: 32px; color: #666; font-size: 0.9rem; }
+    .card { background: #f8f9fa; border-radius: 12px; padding: 24px; transition: transform .2s; border: 1px solid #eee; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px rgba(0,0,0,0.05); }
+    .card h3 { margin-bottom: 8px; font-size: 1.2rem; color: #302b63; }
+    .card .num { font-size: 2rem; font-weight: 700; color: #302b63; display: block; margin-bottom: 8px; }
+    .pricing-table { width: 100%; border-collapse: collapse; margin: 24px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden; }
+    .pricing-table th, .pricing-table td { padding: 16px 12px; text-align: left; border-bottom: 1px solid #eee; }
+    .pricing-table th { background: #302b63; color: #fff; font-weight: 600; }
+    .pricing-table tr:last-child td { border-bottom: none; }
+    .pricing-table tr:hover { background: #f8f9fa; }
+    .contact { background: linear-gradient(135deg, #f8f9fa, #f0f2ff); border-radius: 12px; padding: 60px 40px; text-align: center; margin-top: 20px; }
+    .contact-details { display: flex; justify-content: center; align-items: center; gap: 24px; margin: 24px 0; flex-wrap: wrap; }
+    .contact-item { display: flex; align-items: center; gap: 8px; font-size: 1rem; }
+    .contact-item a { color: #302b63; font-weight: 600; text-decoration: none; }
+    .contact-item svg { width: 20px; height: 20px; fill: #302b63; }
+    footer { text-align: center; padding: 32px; color: #666; font-size: 0.9rem; background: #f8f9fa; margin-top: 40px; }
     .badge { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; }
-    @media (max-width: 600px) { .pricing-table { font-size: 0.9rem; } }
+    .sticky-contact { position: fixed; bottom: 20px; right: 20px; z-index: 999; display: flex; gap: 10px; }
+    .sticky-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform .2s; }
+    .sticky-btn:hover { transform: scale(1.1); }
+    .whatsapp-btn { background: #25D366; }
+    .email-btn { background: #ff6b35; }
+    .sticky-btn svg { width: 24px; height: 24px; fill: white; }
+    @media (max-width: 600px) { 
+      .pricing-table { font-size: 0.9rem; } 
+      .cta { display: block; width: 90%; margin: 0 auto 12px; }
+      .cta-whatsapp { margin-left: auto; margin-right: auto; }
+      .contact { padding: 40px 20px; }
+      .contact-details { flex-direction: column; gap: 16px; align-items: flex-start; }
+    }
   </style>
 </head>
 <body>
+  <!-- 悬浮联系按钮 -->
+  <div class="sticky-contact">
+    <a href="https://wa.me/8613343340318" target="_blank" class="sticky-btn whatsapp-btn" title="Contact via WhatsApp">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M19.071 4.929a10 10 0 0 0-14.142 0 10 10 0 0 0 0 14.142 10 10 0 0 0 14.142 0 10 10 0 0 0 0-14.142zm-1.414 12.728a8 8 0 0 1-11.314 0 8 8 0 0 1 0-11.314 8 8 0 0 1 11.314 0 8 8 0 0 1 0 11.314zm-.772-8.098c-.42-.085-.773.128-.933.445-.158.315-.04.676.218.885.07.063 1.108.97 1.35 1.149.242.178.403.413.429.669.026.257-.08.503-.298.679-.217.175-.498.266-.79.266-.09 0-.182-.008-.272-.026-.09-.019-1.271-.222-1.548-.807-.278-.585-.449-1.21-.443-1.22.006-.01.23-.128.504-.252.275-.124.53-.278.758-.458.227-.18.404-.393.522-.631.118-.239.158-.495.11-.748-.048-.252-.206-.47-.44-.603-.235-.133-.49-.19-.75-.164-.26.026-.957.207-1.685.68-.727.472-1.276 1.066-1.554 1.403-.277.337-.475.576-.59.711-.115.136-.234.24-.354.311-.12.071-.245.118-.37.141-.125.023-.252.024-.378.008-.126-.016-.245-.055-.353-.115-.108-.06-.205-.135-.288-.223-.083-.088-.148-.188-.193-.298-.045-.11-.07-.226-.074-.344-.004-.118.014-.236.058-.347.044-.111.105-.212.182-.3.077-.088.17-.162.275-.22.105-.058.22-.101.342-.128.122-.027.248-.038.374-.033.126.005.247.028.36.068.113.04.218.088.312.145.094.057.178.122.248.194.07.072.128.149.172.23.044.081.074.166.09.254.016.088.019.178.009.267-.01.089-.038.173-.083.248-.045.075-.103.14-.172.195-.069.055-.148.101-.234.138-.086.037-.178.066-.273.086-.095.02-.192.03-.29.03-.098 0-.196-.01-.291-.03-.095-.02-.187-.05-.273-.09-.086-.04-.166-.087-.237-.14-.071-.053-.134-.11-.187-.17-.053-.06-.098-.124-.134-.19-.036-.066-.062-.135-.079-.205-.017-.07-.024-.141-.021-.212.003-.071.015-.141.036-.208.021-.067.05-.13.087-.187.037-.057.082-.108.133-.151.051-.043.108-.078.17-.104.062-.026.129-.044.199-.052.07-.008.141.006.209.038.068.032.13.075.184.128.054.053.101.11.14.17.039.06.071.123.095.187.024.064.04.13.048.197.008.067.008.134 0 .199-.008.065-.028.128-.058.185-.03.057-.068.108-.112.152-.044.044-.095.08-.152.107-.057.027-.118.046-.182.056-.064.01-.13.01-.195-.001-.065-.011-.127-.035-.185-.071-.058-.036-.11-.084-.155-.142-.045-.058-.082-.108-.11-.159-.032-.051-.057-.104-.074-.159-.017-.055-.026-.112-.027-.169-.001-.057.007-.114.024-.168.017-.054.041-.104.072-.148.031-.044.068-.082.11-.113.042-.031.088-.056.137-.074.049-.018.1-.03.151-.035.051-.005.103.003.153.02.05.017.098.042.142.073.044.031.084.068.119.109.035.041.065.086.089.134.024.048.042.098.053.15.011.052.016.105.014.158-.002.053-.01.105-.025.155-.015.05-.037.097-.065.139-.028.042-.062.08-.101.112-.039.032-.082.058-.128.077-.046.019-.095.032-.145.038-.05.006-.101.006-.151 0-.05-.006-.099-.02-.145-.04-.046-.02-.089-.045-.128-.074-.039-.029-.074-.062-.104-.098-.03-.036-.056-.075-.077-.117-.021-.042-.037-.086-.048-.132-.011-.046-.016-.093-.015-.14-.001-.047.005-.094.018-.14.013-.046.033-.09.059-.13.026-.04.057-.076.093-.107.036-.031.076-.057.119-.077.043-.02.089-.034.137-.041.048-.007.097-.007.145.001.048.008.095.023.14.043.045.02.088.045.127.074.039.029.074.062.104.098.03.036.056.075.077.117.021.042.037.086.048.132.011.046.016.093.015.14.001.047-.005.094-.018.14-.013.046-.033.09-.059.13-.026.04-.057.076-.093.107-.036.031-.076.057-.119.077-.043.02-.089.034-.137.041-.048.007-.097.007-.145-.001-.048-.008-.095-.023-.14-.043-.045-.02-.088-.045-.127-.074-.039-.029-.074-.062-.104-.098-.03-.036-.056-.075-.077-.117-.021-.042-.037-.086-.048-.132-.011-.046-.016-.093-.015-.14M12 2.5c-5.185 0-9.4 4.215-9.4 9.4s4.215 9.4 9.4 9.4 9.4-4.215 9.4-9.4-4.215-9.4-9.4-9.4zm-2.6 11.8l-3.1-3.1c-.15-.15-.15-.4 0-.55.15-.15.4-.15.55 0l2.35 2.35 5.85-5.85c.15-.15.4-.15.55 0 .15.15.15.4 0 .55l-6.4 6.4c-.15.15-.4.15-.55 0z"/>
+      </svg>
+    </a>
+    <a href="mailto:cnsaler2024@gmail.com" class="sticky-btn email-btn" title="Contact via Email">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+      </svg>
+    </a>
+  </div>
+
   <div class="hero">
     <h1>AI Animated Comics at Industrial Scale</h1>
     <p><strong>2,000 episodes/month</strong> · <strong>$60–200/episode</strong> · Turnkey production from script to final export</p>
-    <a class="cta" href="mailto:jingchistudio@email.com">Get a Quote →</a>
+    <a class="cta" href="mailto:cnsaler2024@gmail.com">Get a Quote via Email →</a>
+    <a class="cta cta-whatsapp" href="https://wa.me/8613343340318" target="_blank">Chat on WhatsApp →</a>
   </div>
 
   <section>
@@ -110,13 +145,31 @@
 
   <section class="contact">
     <h2>Ready to Scale Your Content?</h2>
-    <p style="margin-bottom:24px;">Tell us about your project. We'll send you a sample episode and a custom quote within 24 hours.</p>
-    <a class="cta" href="mailto:jingchistudio@email.com">Email Us →</a>
-    <p style="margin-top:16px;font-size:0.9rem;">Or reach out via <a href="#">Upwork</a> · <a href="#">Fiverr</a> · <a href="#">YouTube</a></p>
+    <p style="margin-bottom:24px;max-width:700px;margin-left:auto;margin-right:auto;">Tell us about your project. We'll send you a sample episode and a custom quote within 24 hours.</p>
+    
+    <div class="contact-details">
+      <div class="contact-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+        <a href="mailto:cnsaler2024@gmail.com">cnsaler2024@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M19.071 4.929a10 10 0 0 0-14.142 0 10 10 0 0 0 0 14.142 10 10 0 0 0 14.142 0 10 10 0 0 0 0-14.142zm-1.414 12.728a8 8 0 0 1-11.314 0 8 8 0 0 1 0-11.314 8 8 0 0 1 11.314 0 8 8 0 0 1 0 11.314zm-.772-8.098c-.42-.085-.773.128-.933.445-.158.315-.04.676.218.885.07.063 1.108.97 1.35 1.149.242.178.403.413.429.669.026.257-.08.503-.298.679-.217.175-.498.266-.79.266-.09 0-.182-.008-.272-.026-.09-.019-1.271-.222-1.548-.807-.278-.585-.449-1.21-.443-1.22.006-.01.23-.128.504-.252.275-.124.53-.278.758-.458.227-.18.404-.393.522-.631.118-.239.158-.495.11-.748-.048-.252-.206-.47-.44-.603-.235-.133-.49-.19-.75-.164-.26.026-.957.207-1.685.68-.727.472-1.276 1.066-1.554 1.403-.277.337-.475.576-.59.711-.115.136-.234.24-.354.311-.12.071-.245.118-.37.141-.125.023-.252.024-.378.008-.126-.016-.245-.055-.353-.115-.108-.06-.205-.135-.288-.223-.083-.088-.148-.188-.193-.298-.045-.11-.07-.226-.074-.344-.004-.118.014-.236.058-.347.044-.111.105-.212.182-.3.077-.088.17-.162.275-.22.105-.058.22-.101.342-.128.122-.027.248-.038.374-.033.126.005.247.028.36.068.113.04.218.088.312.145.094.057.178.122.248.194.07.072.128.149.172.23.044.081.074.166.09.254.016.088.019.178.009.267-.01.089-.038.173-.083.248-.045.075-.103.14-.172.195-.069.055-.148.101-.234.138-.086.037-.178.066-.273.086-.095.02-.192.03-.29.03-.098 0-.196-.01-.291-.03-.095-.02-.187-.05-.273-.09-.086-.04-.166-.087-.237-.14-.071-.053-.134-.11-.187-.17-.053-.06-.098-.124-.134-.19-.036-.066-.062-.135-.079-.205-.017-.07-.024-.141-.021-.212.003-.071.015-.141.036-.208.021-.067.05-.13.087-.187.037-.057.082-.108.133-.151.051-.043.108-.078.17-.104.062-.026.129-.044.199-.052.07-.008.141.006.209.038.068.032.13.075.184.128.054.053.101.11.14.17.039.06.071.123.095.187.024.064.04.13.048.197.008.067.008.134 0 .199-.008.065-.028.128-.058.185-.03.057-.068.108-.112.152-.044.044-.095.08-.152.107-.057.027-.118.046-.182.056-.064.01-.13.01-.195-.001-.065-.011-.127-.035-.185-.071-.058-.036-.11-.084-.155-.142-.045-.058-.082-.108-.11-.159-.032-.051-.057-.104-.074-.159-.017-.055-.026-.112-.027-.169-.001-.057.007-.114.024-.168.017-.054.041-.104.072-.148.031-.044.068-.082.11-.113.042-.031.088-.056.137-.074.049-.018.1-.03.151-.035.051-.005.103.003.153.02.05.017.098.042.142.073.044.031.084.068.119.109.035.041.065.086.089.134.024.048.042.098.053.15.011.052.016.105.014.158-.002.053-.01.105-.025.155-.015.05-.037.097-.065.139-.028.042-.062.08-.101.112-.039.032-.082.058-.128.077-.046.019-.095.032-.145.038-.05.006-.101.006-.151 0-.05-.006-.099-.02-.145-.04-.046-.02-.089-.045-.128-.074-.039-.029-.074-.062-.104-.098-.03-.036-.056-.075-.077-.117-.021-.042-.037-.086-.048-.132-.011-.046-.016-.093-.015-.14-.001-.047.005-.094.018-.14.013-.046.033-.09.059.13-.026.04-.057.076-.093.107-.036.031-.076.057-.119.077-.043.02-.089.034-.137.041-.048.007-.097.007-.145-.001-.048-.008-.095-.023-.14-.043-.045-.02-.088-.045-.127-.074-.039-.029-.074-.062-.104-.098-.03-.036-.056-.075-.077-.117-.021-.042-.037-.086-.048-.132-.011-.046-.016-.093-.015-.14M12 2.5c-5.185 0-9.4 4.215-9.4 9.4s4.215 9.4 9.4 9.4 9.4-4.215 9.4-9.4-4.215-9.4-9.4-9.4zm-2.6 11.8l-3.1-3.1c-.15-.15-.15-.4 0-.55.15-.15.4-.15.55 0l2.35 2.35 5.85-5.85c.15-.15.4-.15.55 0 .15.15.15.4 0 .55l-6.4 6.4c-.15.15-.4.15-.55 0z"/>
+        </svg>
+        <a href="https://wa.me/8613343340318" target="_blank">+86 13343340318 (WhatsApp)</a>
+      </div>
+    </div>
+    
+    <a class="cta" href="mailto:cnsaler2024@gmail.com">Email Us →</a>
+    <a class="cta cta-whatsapp" href="https://wa.me/8613343340318" target="_blank">Chat on WhatsApp →</a>
+    <p style="margin-top:16px;font-size:0.9rem;color:#666;">We respond to WhatsApp messages within 2 hours during business hours (9:00-18:00 GMT+8)</p>
   </section>
 
   <footer>
-    <p>Jingchi Studio · AI Animated Comic Production · Contact: jingchistudio@email.com</p>
+    <p>Jingchi Studio · AI Animated Comic Production</p>
+    <p style="margin-top:8px;">Email: <a href="mailto:cnsaler2024@gmail.com" style="color:#302b63;text-decoration:none;">cnsaler2024@gmail.com</a> | WhatsApp: <a href="https://wa.me/8613343340318" target="_blank" style="color:#302b63;text-decoration:none;">+86 13343340318</a></p>
     <p style="margin-top:8px;">© 2026 Jingchi Studio. All rights reserved.</p>
   </footer>
 </body>
